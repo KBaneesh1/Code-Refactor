@@ -1,0 +1,7 @@
+accelerate
+transformers
+auto-gptq
+optimum
+torch
+pyngrok
+flask_ngrok
