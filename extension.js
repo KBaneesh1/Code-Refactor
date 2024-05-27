@@ -19,7 +19,7 @@ function activate(context) {
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
 	console.log('Congratulations, your extension "Code-Refactor" is now active!');
-
+    console.log("HII");
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with  registerCommand
 	// The commandId parameter must match the command field in package.json
@@ -40,54 +40,11 @@ function activate(context) {
         console.log('Selected Text:', selectedText);
         vscode.window.showInformationMessage('Selected Text: ' + selectedText);
 
-        // const pythonScriptPath = context.asAbsolutePath('scripts/testing.py');
-
-        // const pythonProcess = spawn('python', ['D:\\HPE CTY\\testing.py', selectedText]);
-        
-        // // pythonProcess.stdout.on('data', (data) => {
-        //     // const outputFile = fs.createWriteStream('D:\\HPE CTY\\output.txt', { flags: 'a' });
-        //     // const outputData = data.toString()
-        //     // outputFile.write(outputData + '\n');
-        //     // console.log(`stdout : ${data}`);
-        // // });
-
-        // pythonProcess.stdout.on('data', (data) => {
-            
-        //     const outputFile = fs.createWriteStream('D:\\HPE CTY\\Code-Refactor\\output.txt', { flags: 'w' });
-        //     const outputData = data.toString();
-        //     outputFile.write(outputData);
-        //     console.log(`stdout: ${outputData}`);
-
-        // });
-
-        // pythonProcess.stderr.on('data', (data) => {
-        //     console.error(`stderr: ${data}`);
-        // });
-
-        // pythonProcess.on('close', (code) => {
-        //     console.log(`child process exited with code ${code}`);
-        // });
         try {
             
             const response = await axios.post('https://c01d-34-125-87-91.ngrok-free.app/refactor', { code: selectedText });
             const refactoredCode = response.data.refactored_code;
 
-            // editor.edit(editBuilder => {
-            //     editBuilder.replace(selection, refactoredCode);
-            // });
-            // const outputFile = fs.createWriteStream('D:\\HPE CTY\\Code-Refactor\\output.md', { flags: 'w' });
-            // const outputData = refactoredCode.toString();
-            // outputFile.write(outputData);
-            // console.log(`stdout: ${outputData}`);
-            // outputFile.end(() => {
-            //     console.log(`stdout: ${outputData}`);
-            //     // Open the file using the default application for markdown files
-            //     exec('code -r -g D:\\HPE CTY\\Code-Refactor\\output.md:1 --disable-extensions', (err) => {
-            //         if (err) {
-            //             console.error(`Error opening file: ${err}`);
-            //         }
-            //     });
-            // });
             if(refactoredCode==null)
             {
                 return;
