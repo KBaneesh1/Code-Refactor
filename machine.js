@@ -1,7 +1,6 @@
 const vscode = require('vscode');
 const net = require('net');
 const path = require('path');
-
 function activate(context) {
     console.log('Congratulations, your extension "Code-Refactor" is now active!');
     

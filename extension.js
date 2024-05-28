@@ -2,12 +2,14 @@
 // Import the module and reference it with the alias vscode in your code below
 const vscode = require('vscode');
 const { spawn } = require('child_process');
-const fs = require('fs').promises;
+const fs = require('fs');
 const axios = require('axios');
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 const {exec} = require('child_process');
 const path = require('path');
+const configPath = path.resolve(__dirname, 'url.json');
+const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
 
 /**
  * @param {vscode.ExtensionContext} context
@@ -37,12 +39,13 @@ function activate(context) {
         let selectedText = editor.document.getText(selection);
 
         // Now you have the selected text, you can do whatever processing you want
-        console.log('Selected Text:', selectedText);
+        console.log('Selected Text:', selectedText);5
         vscode.window.showInformationMessage('Selected Text: ' + selectedText);
 
         try {
-            
-            const response = await axios.post('https://c01d-34-125-87-91.ngrok-free.app/refactor', { code: selectedText });
+            const serverUrl = config.SERVER_URL + "/refactor";
+            console.log('Making request to:', serverUrl);
+            const response = await axios.post(serverUrl, { code: selectedText });
             const refactoredCode = response.data.refactored_code;
 
             if(refactoredCode==null)
@@ -60,7 +63,7 @@ function activate(context) {
             const newFilePath = path.join(workspacePath, 'refactored_output.md');
 
             try {
-                await fs.writeFile(newFilePath, refactoredCode);
+                await fs.promises.writeFile(newFilePath, refactoredCode);
                 const newFileUri = vscode.Uri.file(newFilePath);
 
                 // Open the new Markdown file in the editor
